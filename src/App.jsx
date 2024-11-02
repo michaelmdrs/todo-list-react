@@ -1,25 +1,34 @@
 import { useState, useEffect } from "react"
 import Tasks from "./components/Tasks"
 import AddTask from "./components/AddTask"
+import { v4 } from "uuid"
 import './App'
 
 function App() {
-  const [tasks, setTaks] = useState([{
-    id: 1,
-    title: 'Estudar programação',
-    description: 'Estudar programação para se tornar um desenvolvedor full stack.',
-    isCompleted: false
-  }, {
-    id: 2,
-    title: 'Estudar matemática e lógica matemática',
-    description: 'Aprender os fundamentos básicos para melhorar minha lógica.',
-    isCompleted: false
-  }, {
-    id: 3,
-    title: 'Estudar inglês',
-    description: 'Aprender o inglês para me tornar fluente e crescer profissionalmente',
-    isCompleted: false
-  }])
+  const [tasks, setTaks] = useState(
+    JSON.parse(localStorage.getItem("tasks")) || []
+  )
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks))
+  }, [tasks])
+
+/*  EXEMPLO DE COMO INTERAGIR DE API COM O REACT 
+    useEffect(() => {
+    async function fetchTasks() {
+        // Chamar a API
+      const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=10', {
+        method: 'GET'
+      });
+      // Pegar os dados
+      const data = await response.json()
+
+      // armazenar e persistir
+      setTaks(data)
+    }
+
+    fetchTasks()
+  }, []) */
 
   function onTaskClick(taskId) {
     const newTask = tasks.map(task => {
@@ -40,17 +49,17 @@ function App() {
 
   function onAddTaskSubmit(title, description) {
     const newTask = {
-      id: tasks.length + 1, // incrementa o ID para cada tarefa de forma que fiquem únicos
+      id: v4, // incrementa o ID para cada tarefa de forma que fiquem únicos
       title,
       description,
       isCompleted: false
     }
-    setTaks([...tasks, newTask])
-  }
+    setTaks([...tasks, newTask]) // quando estamos atualizando uma lista não podemos utilizar o push as sim setar o que esta
+  }                             //  dentro da lista com o que vai estar
   
   const onAddTask = (title, description) => {
     const newTask = {
-      id: tasks.length + 1,
+      id: v4,
       title,
       description,
       isCompleted: false
