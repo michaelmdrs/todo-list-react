@@ -3,6 +3,7 @@ import Tasks from "./components/Tasks"
 import AddTask from "./components/AddTask"
 import { v4 } from "uuid"
 import './App'
+import Title from "./components/Title"
 
 function App() {
   const [tasks, setTaks] = useState(
@@ -10,8 +11,8 @@ function App() {
   )
 
   useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks))
-  }, [tasks])
+    localStorage.setItem("tasks", JSON.stringify(tasks)) // utilizando o localstorage para manter as informações
+  }, [tasks]) // recebe um parametro e depois uma lista 
 
 /*  EXEMPLO DE COMO INTERAGIR DE API COM O REACT 
     useEffect(() => {
@@ -70,7 +71,7 @@ function App() {
   return (
     <div className="w-screen h-screen bg-slate-500 flex justify-center p-6">
       <div className="w-[500px] space-y-4">
-        <h1 className="text-3xl text-slate-100 font-bold text-center p-6">Gerenciador de tarefas</h1>
+        <Title>Gerenciador de Tarefas</Title>
         <AddTask  onAddTaskSubmit={onAddTaskSubmit}/>
         <Tasks tasks={tasks} onTaskClick={onTaskClick} deleteTaskClick={deleteTaskClick} onAddTask={onAddTask} />
       </div>
